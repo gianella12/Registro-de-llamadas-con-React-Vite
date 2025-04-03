@@ -1,0 +1,21 @@
+{
+  "name": "registro-de-llamadas-con-react-vite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gianella12/Registro-de-llamadas-con-React-Vite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gianella12/Registro-de-llamadas-con-React-Vite/issues"
+  },
+  "homepage": "https://github.com/gianella12/Registro-de-llamadas-con-React-Vite#readme"
+}

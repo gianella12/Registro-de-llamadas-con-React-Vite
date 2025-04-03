@@ -1,0 +1,25 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+}
+.pedirNumero{
+  margin-bottom:5px ;
+}
+table {
+  width: 50%;
+  border-collapse: collapse; /* Esto asegura que las celdas estén juntas sin doble borde */
+}
+
+th, td {
+  border: 1px solid black; /* Añade un borde de 1px a todas las celdas */
+  padding: 8px; /* Espaciado dentro de las celdas */
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+th {
+  background-color: #f2f2f2; /* Color de fondo para las cabeceras */
+}
