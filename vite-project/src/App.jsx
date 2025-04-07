@@ -23,12 +23,18 @@ export const App = () => {
     }
 
     setLlamadas(nuevasLlamadas);
-    calcularPromedioYtotal(nuevaDuracionTotal,nuevasLlamadas,setDuracionTotal,setPromedio)
+    calcularPromedioYtotal(nuevaDuracionTotal,nuevasLlamadas)
   }
+  function  calcularPromedioYtotal (nuevaDuracionTotal, nuevasLlamadas) {
+    setDuracionTotal(nuevaDuracionTotal);
+    setPromedio(nuevaDuracionTotal / nuevasLlamadas.length || 0);  
+  }
+
   return (
     <>
       <section className="pedirNumero">
         <h2>Registro de llamadas</h2>
+        <p>Ingresa el numero de llamadas que quieras generar.</p>
         <input
           type="text"
           value={valor}
@@ -36,17 +42,13 @@ export const App = () => {
         />
         <button onClick={() => generarLlamadas(valor)}>Generar</button>
       </section>
-      <ManejoDeLlamadas llamadas={llamadas} />
-      <section className="mostrarPromedioYTotal">
-        <p>Duración total: {duracionTotal} segundos</p>
+      {llamadas.length > 0 && <ManejoDeLlamadas llamadas={llamadas} />}
+      {duracionTotal >0 && promedio > 0 && <section className="mostrarPromedioYTotal">
+        <p>Duración total: {duracionTotal} seg</p>
         <p>Promedio de segundos por cada llamada: {promedio.toFixed(2)}</p>
-      </section>
+      </section>}
     
     </>
   );
 }
-const  calcularPromedioYtotal = (nuevaDuracionTotal, nuevasLlamadas, setDuracionTotal, setPromedio) => {
-    setDuracionTotal(nuevaDuracionTotal);
-    setPromedio(nuevaDuracionTotal / nuevasLlamadas.length || 0);
-  
-}
+

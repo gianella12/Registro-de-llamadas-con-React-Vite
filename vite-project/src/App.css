@@ -1,5 +1,5 @@
 body {
-  background-color: #d5a6f5;
+  background-color: #d1c6d8;
   margin: 0;
   font-family: Arial, sans-serif;
 }
@@ -32,6 +32,8 @@ th {
 
 button{
   border-color: rgb(147, 89, 201);
+  background-color: #baacc4;
   border-radius: 5px;
   margin:5px;
+  cursor: pointer;
 }
