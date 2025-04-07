@@ -1,3 +1,8 @@
+body {
+  background-color: #d5a6f5;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -10,8 +15,9 @@
   margin-bottom:5px ;
 }
 table {
+  background-color: rgb(240, 189, 245);
   width: 50%;
-  border-collapse: collapse; /* Esto asegura que las celdas estén juntas sin doble borde */
+  border-collapse: collapse rgb(183, 121, 189);; /* Esto asegura que las celdas estén juntas sin doble borde */
 }
 
 th, td {
@@ -21,5 +27,11 @@ th, td {
 }
 
 th {
-  background-color: #f2f2f2; /* Color de fondo para las cabeceras */
+  background-color: #c78ce9; /* Color de fondo para las cabeceras */
+}
+
+button{
+  border-color: rgb(147, 89, 201);
+  border-radius: 5px;
+  margin:5px;
 }

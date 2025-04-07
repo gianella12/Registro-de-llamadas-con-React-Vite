@@ -1,34 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
-import { createElement } from "react";
 
-export function SistemaDeGestion({ llamadas }) {
+export function ManejoDeLlamadas({ llamadas }) {
+  const [llamadasGeneradas, setLlamadasGeneradas] = useState([])
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
-  const [valoresEditados, setValoresEditados] = useState({origen:0, destino:0, duracionDeLlamada:0});
-  const editarCelda =(index) => {
-    setCeldaEnEdicion(index)
-  }
- 
-  function manejarCambio(event) {
-    const nuevoValor = event.target.value;
-    setValoresEditados(nuevoValor); // Actualiza el estado
-  }
-  function guardarCambio(index, campo){
-    // console.log(llamadas[index].origen=valoresEditados)
-    if(campo == "origen"){llamadas[index].origen=valoresEditados}
-    if(campo == "destino"){llamadas[index].destino=valoresEditados}
+  const [valoresEditados, setValoresEditados] = useState({});
 
-    setCeldaEnEdicion(null)
-    console.log(llamadas)
-  }
-  function borrar(index){
-    if(confirm("quieres borrar")){
-      
-     console.log(llamadas[index])
+
+
+  useEffect(() => {
+    setLlamadasGeneradas(llamadas);
+  }, [llamadas]);
+
   
-    }
-    
+  function editarCelda(index) {
+    setCeldaEnEdicion(index);
+    setValoresEditados(llamadasGeneradas[index]);
   }
+
+  function manejarCambio(event, campo){
+    const nuevoValor = event.target.value;
+    setValoresEditados({
+      ...valoresEditados,
+      [campo]: nuevoValor
+    });
+  }
+  
+  function guardarCambio(index, campo) {
+    const nuevasLlamadas = [...llamadasGeneradas];
+    nuevasLlamadas[index][campo] = valoresEditados[campo];
+    setLlamadasGeneradas(nuevasLlamadas);
+    setCeldaEnEdicion(null);
+  }
+
+
+  function borrar(index){
+    if(confirm("¿Seguro que quieres borrar?")){
+      const nuevasLlamadas = [...llamadasGeneradas];
+      nuevasLlamadas.splice(index, 1);
+      setLlamadasGeneradas(nuevasLlamadas);
+    } 
+  }
+
     return (
     <>
       <table id="tabla">
@@ -41,7 +54,7 @@ export function SistemaDeGestion({ llamadas }) {
           </tr>
         </thead>
         <tbody>
-          {llamadas.map((llamada, index) => (
+          {llamadasGeneradas.map((llamada, index) => (
             <tr key={index} >
               <td>
               {celdaEnEdicion === index ? (
@@ -49,10 +62,10 @@ export function SistemaDeGestion({ llamadas }) {
                 <input
                   type="number"
                   defaultValue={llamada.origen}
-                  onChange={(e) => manejarCambio(e, index)}
+                  onChange={(e) => manejarCambio(e, "origen")}
                 />
                 <button onClick={() => guardarCambio(index, "origen")}>Guardar</button>
-                <button>Cancelar</button>
+                <button onClick={() => setCeldaEnEdicion(null)}>Cancelar</button>
                </>
               ) : (
                 llamada.origen
@@ -64,10 +77,10 @@ export function SistemaDeGestion({ llamadas }) {
                 <input
                   type="number"
                   defaultValue={llamada.destino }
-                  onChange={(e) => manejarCambio(e, index)}
+                  onChange={(e) => manejarCambio(e, "destino")}
                 />
                 <button onClick={() => guardarCambio(index, "destino")}>Guardar</button>
-                <button>Cancelar</button>
+                <button onClick={() => setCeldaEnEdicion(null)}>Cancelar</button>
                </>
               ) : (
                 llamada.destino

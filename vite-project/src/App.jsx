@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { SistemaDeGestion } from './sistemaDeGestion';
+import { ManejoDeLlamadas } from './sistemaDeGestion';
 
 export const App = () => {
   const [valor, setValor] = useState('');
   const [llamadas, setLlamadas] = useState([]);
   const [duracionTotal, setDuracionTotal] = useState(0);
   const [promedio, setPromedio] = useState(0);
+
+  
 
   function generarLlamadas(cantidad) {
     const nuevasLlamadas = [];
@@ -34,7 +36,7 @@ export const App = () => {
         />
         <button onClick={() => generarLlamadas(valor)}>Generar</button>
       </section>
-      <SistemaDeGestion llamadas={llamadas} />
+      <ManejoDeLlamadas llamadas={llamadas} />
       <section className="mostrarPromedioYTotal">
         <p>Duración total: {duracionTotal} segundos</p>
         <p>Promedio de segundos por cada llamada: {promedio.toFixed(2)}</p>
