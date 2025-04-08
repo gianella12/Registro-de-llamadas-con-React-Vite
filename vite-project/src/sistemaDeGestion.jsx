@@ -20,11 +20,10 @@ export function ManejoDeLlamadas({ llamadas }) {
 
   function manejarCambio(event, campo){
     const nuevoValor = event.target.value;
-    if(nuevoValor = 10){
     setValoresEditados({
       ...valoresEditados,
       [campo]: nuevoValor
-    });}
+    });
   }
   
   function guardarCambio(index, campo) {
