@@ -9,26 +9,25 @@ export const App = () => {
 
   
 
-  function generarLlamadas(cantidad) {
-    const nuevasLlamadas = [];
-    let nuevaDuracionTotal = 0;
+  async function pedirLlamadasAlServidor(cantidad) {
+    try {
+      const respuesta = await fetch(`http://localhost:3000/generar-telefonos/${cantidad}`);
+      const datos = await respuesta.json();
 
-    for (let i = 0; i < cantidad; i++) {
-      let destino = Math.floor(Math.random() * (9999999999 - 1111111111) + 1111111111);
-      let origen = Math.floor(Math.random() * (9999999999 - 1111111111) + 1111111111);
-      let duracionDeLlamada = Math.floor(Math.random() * (600 - 30 + 1) + 30);
+      setLlamadas(datos);
 
-      nuevasLlamadas.push({ origen, destino, duracionDeLlamada });
-      nuevaDuracionTotal += duracionDeLlamada;
+      calcularPromedioYtotal(datos);
+    } catch (error) {
+      console.error('Error al obtener llamadas del servidor:', error);
     }
+  }
 
-    setLlamadas(nuevasLlamadas);
-    calcularPromedioYtotal(nuevaDuracionTotal,nuevasLlamadas)
+  function calcularPromedioYtotal(llamadasGeneradas) {
+    const total = llamadasGeneradas.reduce((acc, llamada) => acc + llamada.duracionDeLlamada, 0);
+    setDuracionTotal(total);
+    setPromedio(total / llamadasGeneradas.length || 0);
   }
-  function  calcularPromedioYtotal (nuevaDuracionTotal, nuevasLlamadas) {
-    setDuracionTotal(nuevaDuracionTotal);
-    setPromedio(nuevaDuracionTotal / nuevasLlamadas.length || 0);  
-  }
+
 
   return (
     <>
@@ -40,7 +39,7 @@ export const App = () => {
           value={valor}
           onChange={(e) => setValor(Number(e.target.value))}
         />
-        <button onClick={() => generarLlamadas(valor)}>Generar</button>
+        <button onClick={() => pedirLlamadasAlServidor(valor)}>Generar</button>
       </section>
       {llamadas.length > 0 && <ManejoDeLlamadas llamadas={llamadas} />}
       {duracionTotal >0 && promedio > 0 && <section className="mostrarPromedioYTotal">
