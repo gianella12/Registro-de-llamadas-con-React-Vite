@@ -9,7 +9,7 @@ const PUERTO = 3000;
 app.get('/generar-telefonos/:cantidad', (req, res) => {
     const cantidad = parseInt(req.params.cantidad);
   
-    // Validación del número
+   
     if (isNaN(cantidad) || cantidad <= 0) {
       return res.status(400).json({ error: 'Cantidad inválida' });
     }
