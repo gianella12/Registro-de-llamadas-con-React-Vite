@@ -23,31 +23,53 @@ export const App = () => {
   }
 
   function calcularPromedioYtotal(llamadasGeneradas) {
-    const total = llamadasGeneradas.reduce((acc, llamada) => acc + llamada.duracionDeLlamada, 0);
-    setDuracionTotal(total);
-    setPromedio(total / llamadasGeneradas.length || 0);
+    if (!Array.isArray(llamadasGeneradas)) {
+      console.error("⚠️ Esto no es un array:", llamadasGeneradas);
+      return;
+    }
+    try {
+      const total = llamadasGeneradas.reduce((acc, llamada) => acc + llamada.duracionDeLlamada, 0);
+      const promedio = total / llamadasGeneradas.length;
+ 
+      setDuracionTotal(total); 
+      setPromedio(promedio)
+     }catch (error) {
+     console.error("Esto no es un array:", llamadasGeneradas);
+   }
   }
+  
 
 
   return (
-    <>
-      <section className="pedirNumero">
-        <h2>Registro de llamadas</h2>
-        <p>Ingresa el numero de llamadas que quieras generar.</p>
+    <div className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center bg-[#d1c6d8] font-sans min-h-screen">
+      <section className="mb-5">
+        <h2 className="text-2xl font-semibold mb-2">Registro de llamadas</h2>
+        <p className="mb-4">Ingresa el número de llamadas que quieras generar.</p>
+  
         <input
           type="text"
           value={valor}
           onChange={(e) => setValor(Number(e.target.value))}
+          className="border border-purple-400 rounded px-2 py-1 mr-2 w-[160px] h-[30px]"
         />
-        <button onClick={() => pedirLlamadasAlServidor(valor)}>Generar</button>
+  
+        <button
+          onClick={() => pedirLlamadasAlServidor(valor)}
+          className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition"
+        >
+          Generar
+        </button>
       </section>
+  
       {llamadas.length > 0 && <ManejoDeLlamadas llamadas={llamadas} />}
-      {duracionTotal >0 && promedio > 0 && <section className="mostrarPromedioYTotal">
-        <p>Duración total: {duracionTotal} seg</p>
-        <p>Promedio de segundos por cada llamada: {promedio.toFixed(2)}</p>
-      </section>}
-    
-    </>
-  );
+  
+      {duracionTotal > 0 && promedio > 0 && (
+        <section className="mt-6 text-lg">
+          <p className="mb-2">Duración total: {duracionTotal} seg</p>
+          <p>Promedio de segundos por cada llamada: {promedio.toFixed(2)}</p>
+        </section>
+      )}
+    </div>
+  );  
 }
 
