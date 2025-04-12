@@ -11,38 +11,39 @@ export function ManejoDeLlamadas({ llamadas }) {
     setLlamadasGeneradas(llamadas);
   }, [llamadas]);
 
-  
+
   function editarCelda(index) {
     setCeldaEnEdicion(index);
     setValoresEditados(llamadasGeneradas[index]);
   }
 
-  function manejarCambio(event, campo){
+  function manejarCambio(event, campo) {
     const nuevoValor = event.target.value;
-    if(nuevoValor.length == 10){
-    setValoresEditados({
-      ...valoresEditados,
-      [campo]: nuevoValor
-    });}
+    if (nuevoValor.length == 10) {
+      setValoresEditados({
+        ...valoresEditados,
+        [campo]: nuevoValor
+      });
+    }
   }
-  
+
   function guardarCambio(index, campo) {
     const nuevasLlamadas = [...llamadasGeneradas];
-    nuevasLlamadas[index][campo] = valoresEditados[campo];
+    nuevasLlamadas[index] = {...valoresEditados}
     setLlamadasGeneradas(nuevasLlamadas);
     setCeldaEnEdicion(null);
   }
 
 
-  function borrar(index){
-    if(confirm("¿Seguro que quieres borrar?")){
+  function borrar(index) {
+    if (confirm("¿Seguro que quieres borrar?")) {
       const nuevasLlamadas = [...llamadasGeneradas];
       nuevasLlamadas.splice(index, 1);
       setLlamadasGeneradas(nuevasLlamadas);
-    } 
+    }
   }
 
-    return (
+  return (
     <>
       <table id="tabla">
         <thead>
@@ -57,53 +58,52 @@ export function ManejoDeLlamadas({ llamadas }) {
           {llamadasGeneradas.map((llamada, index) => (
             <tr key={index} >
               <td className="border border-black p-2 text-left">
-              {celdaEnEdicion === index ? (
-                <>
-                <input
-                  type="number"
-                  defaultValue={llamada.origen}
-                  onChange={(e) => manejarCambio(e, "origen")}
-                />
-                <button onClick={() => guardarCambio(index, "origen")} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                  Guardar
-                </button>
-                <button onClick={() => setCeldaEnEdicion(null)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                  Cancelar
-                </button>
-               </>
-              ) : (
-                llamada.origen
-              )}
-             </td>
+                {celdaEnEdicion === index ? (
+                  <>
+                    <input
+                      type="number"
+                      defaultValue={llamada.origen}
+                      onChange={(e) => manejarCambio(e, "origen")}
+                    />
+                  </>
+                ) : (
+                  llamada.origen
+                )}
+              </td>
               <td className="border border-black p-2 text-left">
-              {celdaEnEdicion === index ? (
-                <>
-                <input
-                  type="number"
-                  defaultValue={llamada.destino }
-                  onChange={(e) => manejarCambio(e, "destino")}
-                />
-                <button onClick={() => guardarCambio(index, "destino")} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                  Guardar
-                </button>
-                <button onClick={() => setCeldaEnEdicion(null)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                  Cancelar
-                </button>
-               </>
-              ) : (
-                llamada.destino
-              )}
+                {celdaEnEdicion === index ? (
+                    <input
+                      type="number"
+                      defaultValue={llamada.destino}
+                      onChange={(e) => manejarCambio(e, "destino")}
+                    />
+                ) : (
+                  llamada.destino
+                )}
               </td>
               <td className="border border-black p-2 text-left">
                 {llamada.duracionDeLlamada} seg</td>
               <td className="border border-black p-2 text-left">
-                <button onClick={() => borrar(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                  Eliminar
-                </button>
-                <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                  Editar
-                </button>
-             </td>
+                {celdaEnEdicion === index ? (
+                  <>
+                    <button onClick={() => guardarCambio(index)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition">
+                      Guardar
+                    </button>
+                    <button onClick={() => setCeldaEnEdicion(null)} className="bg-red-300 border border-red-600 rounded px-4 py-1 cursor-pointer hover:bg-red-400 transition">
+                      Cancelar
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => borrar(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+                      Eliminar
+                    </button>
+                    <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+                      Editar
+                    </button>
+                  </>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
