@@ -4,6 +4,8 @@ export function ManejoDeLlamadas({ llamadas }) {
   const [llamadasGeneradas, setLlamadasGeneradas] = useState([])
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
   const [valoresEditados, setValoresEditados] = useState({});
+  const [numeroInvalido, setNumeroInvalido] = useState(false);
+
 
 
 
@@ -19,17 +21,30 @@ export function ManejoDeLlamadas({ llamadas }) {
 
   function manejarCambio(event, campo) {
     const nuevoValor = event.target.value;
-    if (nuevoValor.length == 10) {
+    if(nuevoValor.length < 10 ){
+      setNumeroInvalido((estadoAnterior) => ({
+        ...estadoAnterior,
+        [campo]: true,
+      }));
+      return false;
+    }
+
+    if (nuevoValor.length === 10) {
+      setNumeroInvalido((estadoAnterior) => ({
+        ...estadoAnterior,
+        [campo]: false,
+      }));
+  
       setValoresEditados({
         ...valoresEditados,
-        [campo]: nuevoValor
+        [campo]: nuevoValor,
       });
     }
   }
 
-  function guardarCambio(index, campo) {
+  function guardarCambio(index) {
     const nuevasLlamadas = [...llamadasGeneradas];
-    nuevasLlamadas[index] = {...valoresEditados}
+    nuevasLlamadas[index] = { ...valoresEditados }
     setLlamadasGeneradas(nuevasLlamadas);
     setCeldaEnEdicion(null);
   }
@@ -65,6 +80,7 @@ export function ManejoDeLlamadas({ llamadas }) {
                       defaultValue={llamada.origen}
                       onChange={(e) => manejarCambio(e, "origen")}
                     />
+                   {numeroInvalido["origen"] && <p className="text-red-500">El número es inválido</p>}
                   </>
                 ) : (
                   llamada.origen
@@ -72,17 +88,33 @@ export function ManejoDeLlamadas({ llamadas }) {
               </td>
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (
-                    <input
-                      type="number"
-                      defaultValue={llamada.destino}
-                      onChange={(e) => manejarCambio(e, "destino")}
-                    />
+                  <>
+                  <input
+                    type="number"
+                    defaultValue={llamada.destino}
+                    onChange={(e) => manejarCambio(e, "destino")}
+                  />
+                  {numeroInvalido["destino"] && <p className="text-red-500">El número es inválido</p>}
+                  </>
                 ) : (
                   llamada.destino
                 )}
               </td>
               <td className="border border-black p-2 text-left">
-                {llamada.duracionDeLlamada} seg</td>
+              {celdaEnEdicion === index ? (
+                <>
+                <input
+                  type="number"
+                  defaultValue={llamada.duracionDeLlamada}
+                  onChange={(e) => manejarCambio(e, "duracionDeLlamada")}
+                />
+                {numeroInvalido["duracionDeLlamada"] && <p className="text-red-500">El número es inválido</p>}
+                </>
+              ) : (
+                llamada.duracionDeLlamada
+
+              )}
+              </td>
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (
                   <>
