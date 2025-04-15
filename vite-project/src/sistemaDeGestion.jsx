@@ -10,7 +10,8 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
 
 
   useEffect(() => {
-    setLlamadasGeneradas(llamadas);
+    setLlamadasGeneradas(llamadas)
+    setCeldaEnEdicion(null);
   }, [llamadas]);
 
 
@@ -65,8 +66,6 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
       });
     }
   }
-
-console.log("¿Es función?", typeof calcularPromedioYtotal);
 
   function guardarCambio(index) {
     const nuevasLlamadas = [...llamadasGeneradas];

@@ -29,7 +29,6 @@ export const App = () => {
     }
     try {
       const total = llamadasGeneradas.reduce((acc, llamada) => acc + parseInt(llamada.duracionDeLlamada), 0);
-      console.log(total)
       const promedio = total / llamadasGeneradas.length;
  
       setDuracionTotal(total); 
