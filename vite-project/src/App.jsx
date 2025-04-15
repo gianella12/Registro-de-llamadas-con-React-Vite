@@ -28,7 +28,8 @@ export const App = () => {
       return;
     }
     try {
-      const total = llamadasGeneradas.reduce((acc, llamada) => acc + llamada.duracionDeLlamada, 0);
+      const total = llamadasGeneradas.reduce((acc, llamada) => acc + parseInt(llamada.duracionDeLlamada), 0);
+      console.log(total)
       const promedio = total / llamadasGeneradas.length;
  
       setDuracionTotal(total); 
@@ -55,13 +56,13 @@ export const App = () => {
   
         <button
           onClick={() => pedirLlamadasAlServidor(valor)}
-          className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition"
-        >
+          className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
           Generar
         </button>
       </section>
   
-      {llamadas.length > 0 && <ManejoDeLlamadas llamadas={llamadas} />}
+      {llamadas.length > 0 && <ManejoDeLlamadas llamadas={llamadas} calcularPromedioYtotal={calcularPromedioYtotal}  />}
+
   
       {duracionTotal > 0 && promedio > 0 && (
         <section className="mt-6 text-lg">

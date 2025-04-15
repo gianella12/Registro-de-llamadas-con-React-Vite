@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-export function ManejoDeLlamadas({ llamadas }) {
+export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
   const [llamadasGeneradas, setLlamadasGeneradas] = useState([])
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
   const [valoresEditados, setValoresEditados] = useState({});
-  const [numeroInvalido, setNumeroInvalido] = useState(false);
+  const [numeroInvalido, setNumeroInvalido] = useState({});
 
 
 
@@ -23,7 +23,7 @@ export function ManejoDeLlamadas({ llamadas }) {
     const nuevoValor = event.target.value;
 
     if(campo === "duracionDeLlamada"){
-      if(nuevoValor.length > 1 && nuevoValor.length <= 3){
+      if(nuevoValor> 29 && nuevoValor <= 600){
       setNumeroInvalido((estadoAnterior) => ({
         ...estadoAnterior,
         [campo]: false,
@@ -66,11 +66,15 @@ export function ManejoDeLlamadas({ llamadas }) {
     }
   }
 
+console.log("¿Es función?", typeof calcularPromedioYtotal);
+
   function guardarCambio(index) {
     const nuevasLlamadas = [...llamadasGeneradas];
     nuevasLlamadas[index] = { ...valoresEditados }
     setLlamadasGeneradas(nuevasLlamadas);
     setCeldaEnEdicion(null);
+
+    calcularPromedioYtotal(nuevasLlamadas);
   }
 
 
@@ -79,6 +83,8 @@ export function ManejoDeLlamadas({ llamadas }) {
       const nuevasLlamadas = [...llamadasGeneradas];
       nuevasLlamadas.splice(index, 1);
       setLlamadasGeneradas(nuevasLlamadas);
+
+      calcularPromedioYtotal(nuevasLlamadas);
     }
   }
 
