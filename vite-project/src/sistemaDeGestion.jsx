@@ -21,13 +21,37 @@ export function ManejoDeLlamadas({ llamadas }) {
 
   function manejarCambio(event, campo) {
     const nuevoValor = event.target.value;
+
+    if(campo === "duracionDeLlamada"){
+      if(nuevoValor.length > 1 && nuevoValor.length <= 3){
+      setNumeroInvalido((estadoAnterior) => ({
+        ...estadoAnterior,
+        [campo]: false,
+      }));
+  
+      setValoresEditados({
+        ...valoresEditados,
+        [campo]: nuevoValor,
+      });
+    }else{
+      setNumeroInvalido((estadoAnterior) => ({
+        ...estadoAnterior,
+        [campo]: true,
+      }));
+    }
+    return;
+  }
+
+
+
     if(nuevoValor.length < 10 ){
       setNumeroInvalido((estadoAnterior) => ({
         ...estadoAnterior,
         [campo]: true,
       }));
-      return false;
+      return;
     }
+
 
     if (nuevoValor.length === 10) {
       setNumeroInvalido((estadoAnterior) => ({
@@ -94,7 +118,7 @@ export function ManejoDeLlamadas({ llamadas }) {
                     defaultValue={llamada.destino}
                     onChange={(e) => manejarCambio(e, "destino")}
                   />
-                  {numeroInvalido["destino"] && <p className="text-red-500">El número es inválido</p>}
+                  {numeroInvalido["destino"] && <p className="text-red-500">Ingrese un número de 10 digitos</p>}
                   </>
                 ) : (
                   llamada.destino
