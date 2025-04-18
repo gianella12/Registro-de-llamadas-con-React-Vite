@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
+export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
   const [llamadasGeneradas, setLlamadasGeneradas] = useState([])
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
   const [valoresEditados, setValoresEditados] = useState({});
   const [numeroInvalido, setNumeroInvalido] = useState({});
-
-
 
 
   useEffect(() => {
@@ -23,29 +21,27 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
   function manejarCambio(event, campo) {
     const nuevoValor = event.target.value;
 
-    if(campo === "duracionDeLlamada"){
-      if(nuevoValor> 29 && nuevoValor <= 600){
-      setNumeroInvalido((estadoAnterior) => ({
-        ...estadoAnterior,
-        [campo]: false,
-      }));
-  
-      setValoresEditados({
-        ...valoresEditados,
-        [campo]: nuevoValor,
-      });
-    }else{
-      setNumeroInvalido((estadoAnterior) => ({
-        ...estadoAnterior,
-        [campo]: true,
-      }));
+    if (campo === "duracionDeLlamada") {
+      if (nuevoValor > 29 && nuevoValor <= 600) {
+        setNumeroInvalido((estadoAnterior) => ({
+          ...estadoAnterior,
+          [campo]: false,
+        }));
+
+        setValoresEditados({
+          ...valoresEditados,
+          [campo]: nuevoValor,
+        });
+      } else {
+        setNumeroInvalido((estadoAnterior) => ({
+          ...estadoAnterior,
+          [campo]: true,
+        }));
+      }
+      return;
     }
-    return;
-  }
 
-
-
-    if(nuevoValor.length < 10 ){
+    if (nuevoValor.length < 10) {
       setNumeroInvalido((estadoAnterior) => ({
         ...estadoAnterior,
         [campo]: true,
@@ -53,29 +49,18 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
       return;
     }
 
-
     if (nuevoValor.length === 10) {
       setNumeroInvalido((estadoAnterior) => ({
         ...estadoAnterior,
         [campo]: false,
       }));
-  
+
       setValoresEditados({
         ...valoresEditados,
         [campo]: nuevoValor,
       });
     }
   }
-
-  function guardarCambio(index) {
-    const nuevasLlamadas = [...llamadasGeneradas];
-    nuevasLlamadas[index] = { ...valoresEditados }
-    setLlamadasGeneradas(nuevasLlamadas);
-    setCeldaEnEdicion(null);
-
-    calcularPromedioYtotal(nuevasLlamadas);
-  }
-
 
   function borrar(index) {
     if (confirm("¿Seguro que quieres borrar?")) {
@@ -86,6 +71,36 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
       calcularPromedioYtotal(nuevasLlamadas);
     }
   }
+
+
+
+  async function enviarDatosAlServidor(indice, datosEditados) {
+    try {
+      const respuesta = await fetch(`http://localhost:3000/editar-telefonos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          indice: indice,
+          datosEditados: {
+            origen: Number(datosEditados.origen),
+            destino: Number(datosEditados.destino),
+            duracionDeLlamada: Number(datosEditados.duracionDeLlamada)
+          }
+        }),
+      });
+      const resultado = await respuesta.json();
+      setLlamadasGeneradas(resultado);
+      setCeldaEnEdicion(null);
+
+      calcularPromedioYtotal(resultado);
+
+    } catch (error) {
+      console.log("hay un error")
+    }
+  }
+
 
   return (
     <>
@@ -109,7 +124,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
                       defaultValue={llamada.origen}
                       onChange={(e) => manejarCambio(e, "origen")}
                     />
-                   {numeroInvalido["origen"] && <p className="text-red-500">El número es inválido</p>}
+                    {numeroInvalido["origen"] && <p className="text-red-500">El número es inválido</p>}
                   </>
                 ) : (
                   llamada.origen
@@ -118,36 +133,36 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal}) {
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (
                   <>
-                  <input
-                    type="number"
-                    defaultValue={llamada.destino}
-                    onChange={(e) => manejarCambio(e, "destino")}
-                  />
-                  {numeroInvalido["destino"] && <p className="text-red-500">Ingrese un número de 10 digitos</p>}
+                    <input
+                      type="number"
+                      defaultValue={llamada.destino}
+                      onChange={(e) => manejarCambio(e, "destino")}
+                    />
+                    {numeroInvalido["destino"] && <p className="text-red-500">Ingrese un número de 10 digitos</p>}
                   </>
                 ) : (
                   llamada.destino
                 )}
               </td>
               <td className="border border-black p-2 text-left">
-              {celdaEnEdicion === index ? (
-                <>
-                <input
-                  type="number"
-                  defaultValue={llamada.duracionDeLlamada}
-                  onChange={(e) => manejarCambio(e, "duracionDeLlamada")}
-                />
-                {numeroInvalido["duracionDeLlamada"] && <p className="text-red-500">El número es inválido</p>}
-                </>
-              ) : (
-                llamada.duracionDeLlamada
+                {celdaEnEdicion === index ? (
+                  <>
+                    <input
+                      type="number"
+                      defaultValue={llamada.duracionDeLlamada}
+                      onChange={(e) => manejarCambio(e, "duracionDeLlamada")}
+                    />
+                    {numeroInvalido["duracionDeLlamada"] && <p className="text-red-500">El número es inválido</p>}
+                  </>
+                ) : (
+                  llamada.duracionDeLlamada
 
-              )}
+                )}
               </td>
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (
                   <>
-                    <button onClick={() => guardarCambio(index)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition">
+                    <button onClick={() => enviarDatosAlServidor(index, valoresEditados)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition">
                       Guardar
                     </button>
                     <button onClick={() => setCeldaEnEdicion(null)} className="bg-red-300 border border-red-600 rounded px-4 py-1 cursor-pointer hover:bg-red-400 transition">
