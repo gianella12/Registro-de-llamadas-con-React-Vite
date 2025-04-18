@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import Modal from './componentes/modal';
 
 export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
   const [llamadasGeneradas, setLlamadasGeneradas] = useState([])
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
   const [valoresEditados, setValoresEditados] = useState({});
   const [numeroInvalido, setNumeroInvalido] = useState({});
+  const [estadoModal, setCambiarEstadoModal] = useState(false);
 
 
   useEffect(() => {
@@ -63,13 +65,13 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
   }
 
   function borrar(index) {
-    if (confirm("¿Seguro que quieres borrar?")) {
+      setCambiarEstadoModal(!estadoModal);
       const nuevasLlamadas = [...llamadasGeneradas];
       nuevasLlamadas.splice(index, 1);
       setLlamadasGeneradas(nuevasLlamadas);
 
       calcularPromedioYtotal(nuevasLlamadas);
-    }
+    
   }
 
 
@@ -171,9 +173,18 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
                   </>
                 ) : (
                   <>
-                    <button onClick={() => borrar(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+                    <button onClick={() => setCambiarEstadoModal(!estadoModal)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
                       Eliminar
                     </button>
+                    <Modal
+                      estado={estadoModal}
+                      cambiarEstado={setCambiarEstadoModal}
+                    >
+                      <p class="text-gray-700 text-base font-medium text-center">¿Seguro que quieres borrar el registro?</p>
+                      <button onClick={() => borrar(index)} class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-1.5 px-3 rounded shadow-sm transition duration-300">
+                        Aceptar
+                        </button>
+                    </Modal>
                     <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
                       Editar
                     </button>
