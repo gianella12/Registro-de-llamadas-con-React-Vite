@@ -64,13 +64,24 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
     }
   }
 
-  function borrar(index) {
-      setCambiarEstadoModal(!estadoModal);
-      const nuevasLlamadas = [...llamadasGeneradas];
-      nuevasLlamadas.splice(index, 1);
-      setLlamadasGeneradas(nuevasLlamadas);
-
-      calcularPromedioYtotal(nuevasLlamadas);
+ async function borrar(index) {
+      try {
+        const respuesta = await fetch(`http://localhost:3000/borrar-telefonos`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({index}),
+        });
+        const resultado = await respuesta.json();
+        setCambiarEstadoModal(!estadoModal);
+        setLlamadasGeneradas(resultado);
+        calcularPromedioYtotal(resultado);
+       
+  
+      } catch (error) {
+        console.log("hay un error")
+      }
     
   }
 
@@ -106,6 +117,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
 
   return (
     <>
+    {llamadasGeneradas.length > 0 ? (
       <table id="tabla">
         <thead>
           <tr>
@@ -195,6 +207,9 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
           ))}
         </tbody>
       </table>
+    ) : (
+      <p>No hay llamadas</p>
+    )}
     </>
   );
 }
