@@ -1,4 +1,5 @@
 import express from 'express';
+import conexion from './basededatos.js';
 import cors from 'cors';
 
 const app = express();
@@ -29,7 +30,7 @@ app.get('/generar-telefonos/:cantidad', (req, res) => {
   });
   
 
-  app.post(`/editar-telefonos`, (req, res) => {
+app.post(`/editar-telefonos`, (req, res) => {
     const { indice, datosEditados } = req.body;
    
     for (const valorEditado in datosEditados) {
@@ -65,6 +66,17 @@ app.get('/generar-telefonos/:cantidad', (req, res) => {
     }
     res.status(200).json(llamadas);
   });
+  
+app.post(`/borrar-telefonos`, (req, res) => {
+  const { index } = req.body
+
+  if(typeof index !== 'number' || index < 0 || index >= llamadas.length){
+  return res.status(400).json({ error: 'error de indice' });
+  }
+    llamadas.splice(index, 1);
+  
+  res.status(200).json(llamadas);
+ })
 
 app.listen(PUERTO, () => {
     console.log('server on port :', PUERTO)
