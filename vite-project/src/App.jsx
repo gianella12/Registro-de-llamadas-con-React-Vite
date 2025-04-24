@@ -13,7 +13,7 @@ export const App = () => {
     try {
       const respuesta = await fetch(`http://localhost:3000/generar-telefonos/${cantidad}`);
       const datos = await respuesta.json();
-
+      console.log(datos)
       setLlamadas(datos);
 
       calcularPromedioYtotal(datos);

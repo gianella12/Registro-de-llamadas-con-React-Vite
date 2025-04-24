@@ -23,7 +23,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
   function manejarCambio(event, campo) {
     const nuevoValor = event.target.value;
 
-    if (campo === "duracionDeLlamada") {
+    if (campo === "duracion") {
       if (nuevoValor > 29 && nuevoValor <= 600) {
         setNumeroInvalido((estadoAnterior) => ({
           ...estadoAnterior,
@@ -99,7 +99,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
           datosEditados: {
             origen: Number(datosEditados.origen),
             destino: Number(datosEditados.destino),
-            duracionDeLlamada: Number(datosEditados.duracionDeLlamada)
+            duracion: Number(datosEditados.duracion)
           }
         }),
       });
@@ -163,13 +163,13 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
                   <>
                     <input
                       type="number"
-                      defaultValue={llamada.duracionDeLlamada}
+                      defaultValue={llamada.duracion}
                       onChange={(e) => manejarCambio(e, "duracionDeLlamada")}
                     />
                     {numeroInvalido["duracionDeLlamada"] && <p className="text-red-500">El número es inválido</p>}
                   </>
                 ) : (
-                  llamada.duracionDeLlamada
+                  llamada.duracion
 
                 )}
               </td>
