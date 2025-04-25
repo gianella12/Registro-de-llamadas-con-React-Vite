@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { ManejoDeLlamadas } from './sistemaDeGestion';
 
 export const App = () => {
@@ -8,6 +8,13 @@ export const App = () => {
   const [promedio, setPromedio] = useState(0);
 
   
+  useEffect(() => {
+    fetch('http://localhost:3000/') 
+      .then(res => res.json())
+      .then(data => setLlamadas(data))
+      .catch(err => console.error('Error al traer las llamadas:', err));
+  }, []);
+
 
   async function pedirLlamadasAlServidor(cantidad) {
     try {

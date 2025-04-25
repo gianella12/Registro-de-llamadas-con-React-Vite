@@ -7,26 +7,42 @@ app.use(cors());
 app.use(express.json());
 
 const PUERTO = 3000;
-let llamadas = [];
 
-app.get('/generar-telefonos/:cantidad', (req, res) => {
+app.get('/', async (req, res) => {
+  const [filas] = await conexion.execute('SELECT * FROM llamadas');
+  res.json(filas);
+});
+
+app.get('/generar-telefonos/:cantidad', async(req, res) => {
     const cantidad = parseInt(req.params.cantidad);
   
-   
     if (isNaN(cantidad) || cantidad <= 0) {
       return res.status(400).json({ error: 'Cantidad inválida' });
     }
-    llamadas = [];
+
+    try{ 
+   await conexion.execute('DELETE FROM llamadas');
+
     for (let i = 0; i < cantidad; i++) {
       const origen = Math.floor(Math.random() * (9999999999 - 1111111111) + 1111111111);
       const destino = Math.floor(Math.random() * (9999999999 - 1111111111) + 1111111111);
-      const duracionDeLlamada = Math.floor(Math.random() * (600 - 30 + 1) + 30);
+      const duracion = Math.floor(Math.random() * (600 - 30 + 1) + 30);
   
-      llamadas.push({ origen, destino, duracionDeLlamada });
+     await conexion.execute(
+        'INSERT INTO llamadas (origen, destino, duracion) VALUES (?, ?, ?)',
+        [origen, destino, duracion]
+      );
     }
     
-
-    res.json(llamadas);
+    const [filas] = await conexion.execute('SELECT * FROM llamadas');
+     console.log('¿Qué devuelve execute?:', filas);
+    
+    res.json(filas);
+  } catch (error){
+      console.error('❌ Error al generar e insertar llamadas:', error.message);
+      console.error(error.stack);
+      res.status(500).json({ error: 'Error del servidor' });
+    }
   });
   
 
