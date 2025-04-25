@@ -80,7 +80,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
        
   
       } catch (error) {
-        console.log("hay un error")
+        console.log("hay un error", error)
       }
     
   }
@@ -105,6 +105,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
       });
       const resultado = await respuesta.json();
       setLlamadasGeneradas(resultado);
+      console.log(resultado)
       setCeldaEnEdicion(null);
 
       calcularPromedioYtotal(resultado);
