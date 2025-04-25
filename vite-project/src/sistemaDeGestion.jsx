@@ -164,9 +164,9 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
                     <input
                       type="number"
                       defaultValue={llamada.duracion}
-                      onChange={(e) => manejarCambio(e, "duracionDeLlamada")}
+                      onChange={(e) => manejarCambio(e, "duracion")}
                     />
-                    {numeroInvalido["duracionDeLlamada"] && <p className="text-red-500">El número es inválido</p>}
+                    {numeroInvalido["duracion"] && <p className="text-red-500">El número es inválido</p>}
                   </>
                 ) : (
                   llamada.duracion

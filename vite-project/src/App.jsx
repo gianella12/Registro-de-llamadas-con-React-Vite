@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { ManejoDeLlamadas } from './sistemaDeGestion';
+import Modal from './componentes/modal';
 
 export const App = () => {
   const [valor, setValor] = useState('');
   const [llamadas, setLlamadas] = useState([]);
   const [duracionTotal, setDuracionTotal] = useState(0);
   const [promedio, setPromedio] = useState(0);
+  const [cargando, setCargando] = useState(true);
 
   
   useEffect(() => {
     fetch('http://localhost:3000/') 
       .then(res => res.json())
-      .then(data => setLlamadas(data))
+      .then(data => {
+        setLlamadas(data);
+        setCargando(false);
+      })
       .catch(err => console.error('Error al traer las llamadas:', err));
   }, []);
 
@@ -67,7 +72,23 @@ export const App = () => {
         </button>
       </section>
   
-      {llamadas.length > 0 && <ManejoDeLlamadas llamadas={llamadas} calcularPromedioYtotal={calcularPromedioYtotal}  />}
+      {cargando ? (
+      <Modal estado={cargando} cambiarEstado={setCargando}>
+        <p>Cargando las llamadas...</p>
+        <img
+          src="https://media.tenor.com/2roX3uxz_68AAAAC/cat-typing.gif"
+          alt="Gatito tecleando como loco"
+          className="w-48 mx-auto"
+        />
+      </Modal>
+    ) : (
+      llamadas.length > 0 && (
+        <ManejoDeLlamadas
+          llamadas={llamadas}
+          calcularPromedioYtotal={calcularPromedioYtotal}
+        />
+      )
+    )}
 
   
       {duracionTotal > 0 && promedio > 0 && (
