@@ -6,6 +6,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
   const [valoresEditados, setValoresEditados] = useState({});
   const [numeroInvalido, setNumeroInvalido] = useState({});
   const [estadoModal, setCambiarEstadoModal] = useState(false);
+  const [idSeleccionado, setIdSeleccionado] = useState(null);
 
 
   useEffect(() => {
@@ -61,14 +62,14 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
     }
   }
 
- async function borrar(index) {
+ async function borrar(id_llamada) {
       try {
         const respuesta = await fetch(`http://localhost:3000/borrar-telefonos`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({index}),
+          body: JSON.stringify({ id_llamada}),
         });
         const resultado = await respuesta.json();
         setCambiarEstadoModal(!estadoModal);
@@ -181,18 +182,12 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
                   </>
                 ) : (
                   <>
-                    <button onClick={() => setCambiarEstadoModal(!estadoModal)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
-                      Eliminar
-                    </button>
-                    <Modal
-                      estado={estadoModal}
-                      cambiarEstado={setCambiarEstadoModal}
-                    >
-                      <p class="text-gray-700 text-base font-medium text-center">¿Seguro que quieres borrar el registro?</p>
-                      <button onClick={() => borrar(index)} class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-1.5 px-3 rounded shadow-sm transition duration-300">
-                        Aceptar
-                        </button>
-                    </Modal>
+                    <button onClick={() => {
+                        setIdSeleccionado(llamada.id_llamada);
+                        setCambiarEstadoModal(true);
+                      }} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+                        Eliminar
+                      </button>
                     <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
                       Editar
                     </button>
@@ -206,6 +201,19 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
     ) : (
       <p>No hay llamadas</p>
     )}
+
+      {estadoModal && (
+        <Modal
+          estado={estadoModal}
+          cambiarEstado={setCambiarEstadoModal}
+        >
+          <p className="text-gray-700 text-base font-medium text-center">¿Seguro que quieres borrar el registro?</p>
+          <button onClick={() => borrar(idSeleccionado)} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-1.5 px-3 rounded shadow-sm transition duration-300">
+            Aceptar
+          </button>
+        </Modal>
+        )}
+
     </>
   );
 }

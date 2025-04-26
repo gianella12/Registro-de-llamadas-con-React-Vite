@@ -108,41 +108,27 @@ app.post(`/editar-telefonos`,async (req, res) => {
 
 
 app.post(`/borrar-telefonos`, async (req, res) => {
-  const { index } = req.body;
+  const { id_llamada } = req.body;
 
-  if (typeof index !== 'number' || index < 0) {
-    return res.status(400).json({ error: 'Índice no válido' });
+  if (!id_llamada) {
+    return res.status(400).json({ error: 'ID de llamada no proporcionado' });
   }
 
   try {
-    const [llamadas] = await conexion.execute('SELECT * FROM llamadas');
+    const [resultado] = await conexion.execute('DELETE FROM llamadas WHERE id_llamada = ?', [id_llamada]);
 
-    if (index >= llamadas.length) {
-      return res.status(400).json({ error: 'Índice fuera de rango' });
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Llamada no encontrada' });
     }
 
-    const [idfilas] = await conexion.execute(`SELECT id_llamada FROM llamadas LIMIT ${index}, 1`);
-    if (idfilas.length > 0) {
-      const idLlamada = idfilas[0].id_llamada;
-
-      if (idLlamada !== undefined && idLlamada !== null) {
-        await conexion.execute('DELETE FROM llamadas WHERE id_llamada = ?', [idLlamada]);
-      } else {
-        return res.status(400).json({ error: 'ID de llamada no válido' });
-      }
-    } else {
-      return res.status(400).json({ error: 'no se pudo eliminar la llamada' });
-    }
-
-    const [filas] = await conexion.execute('SELECT * FROM llamadas');
-
+    const [filas] = await conexion.execute('SELECT * FROM llamadas ORDER BY id_llamada ASC');
     res.status(200).json(filas);
+
   } catch (error) {
     console.error('Error al eliminar llamada:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
-});
-
+})
 
 app.listen(PUERTO, () => {
   console.log('server on port :', PUERTO)
