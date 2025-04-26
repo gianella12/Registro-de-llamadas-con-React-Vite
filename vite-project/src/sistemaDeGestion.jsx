@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from './componentes/modal';
 
-export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
-  const [llamadasGeneradas, setLlamadasGeneradas] = useState([])
+export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal }) {
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
   const [valoresEditados, setValoresEditados] = useState({});
   const [numeroInvalido, setNumeroInvalido] = useState({});
@@ -10,14 +9,12 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
 
 
   useEffect(() => {
-    setLlamadasGeneradas(llamadas)
-    setCeldaEnEdicion(null);
+    calcularPromedioYtotal(llamadas)
   }, [llamadas]);
-
 
   function editarCelda(index) {
     setCeldaEnEdicion(index);
-    setValoresEditados(llamadasGeneradas[index]);
+    setValoresEditados(llamadas[index]);
   }
 
   function manejarCambio(event, campo) {
@@ -75,8 +72,8 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
         });
         const resultado = await respuesta.json();
         setCambiarEstadoModal(!estadoModal);
-        setLlamadasGeneradas(resultado);
-        calcularPromedioYtotal(resultado);
+        setLlamadas(resultado);
+
        
   
       } catch (error) {
@@ -104,11 +101,9 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
         }),
       });
       const resultado = await respuesta.json();
-      setLlamadasGeneradas(resultado);
-      console.log(resultado)
+      setLlamadas(resultado);
       setCeldaEnEdicion(null);
 
-      calcularPromedioYtotal(resultado);
 
     } catch (error) {
       console.log("hay un error")
@@ -118,7 +113,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
 
   return (
     <>
-    {llamadasGeneradas.length > 0 ? (
+    {llamadas.length > 0 ? (
       <table id="tabla">
         <thead>
           <tr>
@@ -129,7 +124,7 @@ export function ManejoDeLlamadas({ llamadas, calcularPromedioYtotal }) {
           </tr>
         </thead>
         <tbody>
-          {llamadasGeneradas.map((llamada, index) => (
+          {llamadas.map((llamada, index) => (
             <tr key={index} >
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (

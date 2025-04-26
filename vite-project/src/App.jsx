@@ -16,6 +16,7 @@ export const App = () => {
       .then(data => {
         setLlamadas(data);
         setCargando(false);
+        calcularPromedioYtotal(data);
       })
       .catch(err => console.error('Error al traer las llamadas:', err));
   }, []);
@@ -40,7 +41,7 @@ export const App = () => {
       return;
     }
     try {
-      const total = llamadasGeneradas.reduce((acc, llamada) => acc + parseInt(llamada.duracionDeLlamada), 0);
+      const total = llamadasGeneradas.reduce((acc, llamada) => acc + parseInt(llamada.duracion), 0);
       const promedio = total / llamadasGeneradas.length;
  
       setDuracionTotal(total); 
@@ -85,6 +86,7 @@ export const App = () => {
       llamadas.length > 0 && (
         <ManejoDeLlamadas
           llamadas={llamadas}
+          setLlamadas={setLlamadas}
           calcularPromedioYtotal={calcularPromedioYtotal}
         />
       )
