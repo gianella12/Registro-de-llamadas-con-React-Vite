@@ -85,15 +85,15 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
 
 
 
-  async function enviarDatosAlServidor(indice, datosEditados) {
+  async function enviarDatosAlServidor(id_llamada, datosEditados) {
     try {
       const respuesta = await fetch(`http://localhost:3000/editar-telefonos`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          indice: indice,
+          id_llamada: id_llamada,
           datosEditados: {
             origen: Number(datosEditados.origen),
             destino: Number(datosEditados.destino),
@@ -173,7 +173,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (
                   <>
-                    <button onClick={() => enviarDatosAlServidor(index, valoresEditados)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition">
+                    <button onClick={() => enviarDatosAlServidor(llamada.id_llamada, valoresEditados)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition">
                       Guardar
                     </button>
                     <button onClick={() => setCeldaEnEdicion(null)} className="bg-red-300 border border-red-600 rounded px-4 py-1 cursor-pointer hover:bg-red-400 transition">

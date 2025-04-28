@@ -16,7 +16,7 @@ export const App = () => {
       .then(data => {
         setLlamadas(data);
         setCargando(false);
-        calcularPromedioYtotal(data);
+        
       })
       .catch(err => console.error('Error al traer las llamadas:', err));
   }, []);
@@ -28,8 +28,6 @@ export const App = () => {
       const datos = await respuesta.json();
       console.log(datos)
       setLlamadas(datos);
-
-      calcularPromedioYtotal(datos);
     } catch (error) {
       console.error('Error al obtener llamadas del servidor:', error);
     }
