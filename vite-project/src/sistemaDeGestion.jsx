@@ -65,7 +65,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
  async function borrar(id_llamada) {
       try {
         const respuesta = await fetch(`http://localhost:3000/borrar-telefonos`, {
-          method: 'POST',
+          method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },

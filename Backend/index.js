@@ -45,14 +45,14 @@ app.get('/generar-telefonos/:cantidad', async (req, res) => {
 });
 
 
-app.put(`/editar-telefonos`,async (req, res) => {
+app.put(`/editar-telefonos`, async (req, res) => {
   const { id_llamada, datosEditados } = req.body;
 
   const camposPermitidos = ['origen', 'destino', 'duracion'];
 
   const actualizar = async (id_llamada, campo, valor) => {
     const consulta = `UPDATE llamadas SET ${campo} = ? WHERE id_llamada = ?`;
-    
+
     await conexion.execute(consulta, [valor, id_llamada]);
   };
 
@@ -78,12 +78,12 @@ app.put(`/editar-telefonos`,async (req, res) => {
     await actualizar(id_llamada, campo, valor);
   }
 
-   const [filas] = await conexion.execute('SELECT * FROM llamadas');
-    res.status(200).json(filas);
+  const [filas] = await conexion.execute('SELECT * FROM llamadas');
+  res.status(200).json(filas);
 });
 
 
-app.post(`/borrar-telefonos`, async (req, res) => {
+app.delete(`/borrar-telefonos`, async (req, res) => {
   const { id_llamada } = req.body;
 
   if (!id_llamada) {

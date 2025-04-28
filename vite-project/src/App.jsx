@@ -15,7 +15,10 @@ export const App = () => {
       .then(res => res.json())
       .then(data => {
         setLlamadas(data);
-        setCargando(false);
+        
+        setTimeout(() => {
+          setCargando(false);
+        }, 1000);
         
       })
       .catch(err => console.error('Error al traer las llamadas:', err));
