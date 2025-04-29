@@ -63,7 +63,8 @@ export const App = () => {
   return (
     <>
     {mostrarNuevaSeccion ? (
-      <NuevaSeccion />
+      <NuevaSeccion setMostrarNuevaSeccion={setMostrarNuevaSeccion} llamadas={llamadas}
+      setLlamadas={setLlamadas}/>
     ) : (
     <div className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center bg-[#d1c6d8] font-sans min-h-screen">
       <section className="mb-5">

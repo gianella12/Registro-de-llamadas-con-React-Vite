@@ -44,6 +44,46 @@ app.get('/generar-telefonos/:cantidad', async (req, res) => {
   }
 });
 
+app.post(`/insertar-registro`, async (req, res) => {
+  const {  datosEditados } = req.body;
+
+  const camposPermitidos = ['origen', 'destino', 'duracion'];
+  const { origen, destino, duracion } = datosEditados;
+
+  for (const campo in datosEditados) {
+    const valor = datosEditados[campo];
+
+    if (!camposPermitidos.includes(campo)) {
+      return res.status(400).json({ error: `Campo "${campo}" no permitido` });
+    }
+
+    if (typeof  valor !== 'number') {
+      return res.status(400).json({ error: `El campo "${valor}" debe ser un número` });
+    }
+
+    if (( campo === 'origen' || campo === 'destino') && valor.toString().length !== 10) {
+      return res.status(400).json({ error: `El número de ${campo} debe tener 10 dígitos` });
+    }
+
+    if ( campo === 'duracion' && (valor <= 29 || valor > 600)) {
+      return res.status(400).json({ error: 'La duración de la llamada debe ser entre 30 y 600 segundos' });
+    }
+
+  }
+
+  try {
+    await conexion.execute(
+      'INSERT INTO llamadas (origen, destino, duracion) VALUES (?, ?, ?)',
+      [origen, destino, duracion]
+    );
+
+    const [filas] = await conexion.execute('SELECT * FROM llamadas');
+    res.status(200).json(filas);
+  } catch (error) {
+    console.error('Error al insertar en la base de datos:', error);
+    res.status(500).json({ error: 'Error al insertar en la base de datos' });
+  }
+})
 
 app.put(`/editar-telefonos`, async (req, res) => {
   const { id_llamada, datosEditados } = req.body;
