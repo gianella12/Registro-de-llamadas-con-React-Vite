@@ -63,7 +63,7 @@ export const App = () => {
   return (
     <>
     {mostrarNuevaSeccion ? (
-      <NuevaSeccion setMostrarNuevaSeccion={setMostrarNuevaSeccion} llamadas={llamadas}
+      <NuevaSeccion setMostrarNuevaSeccion={setMostrarNuevaSeccion}
       setLlamadas={setLlamadas}/>
     ) : (
     <div className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center bg-[#d1c6d8] font-sans min-h-screen">

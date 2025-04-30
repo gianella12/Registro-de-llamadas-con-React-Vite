@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const NuevaSeccion = ({ setMostrarNuevaSeccion, llamadas, setLlamadas }) => {
+export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
     const [numeroInvalido, setNumeroInvalido] = useState({
         origen: true,
         destino: true,
@@ -113,19 +113,18 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, llamadas, setLlamadas }) 
                     </tbody>
                 </table>
             </div>
-            {/* <button onClick={() => registroTerminado()} className="bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer hover:bg-purple-400 transition text-white shadow-md">
-            Aceptar
-            </button> */}
+            
             <button
                 onClick={() =>registroTerminado()}
                 disabled={hayErrores}
-                className={`bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer transition text-white shadow-md 
-                ${hayErrores ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-400'}`}
+                className={`bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 transition text-white shadow-md 
+                ${hayErrores ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-400 cursor-pointer'}`}
             >
                 Aceptar
             </button>
-            <button onClick={() => atras()} className="bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer hover:bg-purple-400 transition text-white shadow-md">
-                Atras
+
+            <button onClick={() => atras()} className="absolute top-4 left-4 bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer hover:bg-purple-400 transition text-white shadow-md">
+            <i className="bi bi-box-arrow-left"></i>
             </button>
         </>
     )
