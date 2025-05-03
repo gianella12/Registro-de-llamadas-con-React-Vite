@@ -39,17 +39,14 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
             return;
         }
 
-        if (nuevoValor.length === 10) {
-            setNumeroInvalido((estadoAnterior) => ({
-                ...estadoAnterior,
-                [campo]: false,
-            }));
-
-            setValoresEditados({
-                ...valoresEditados,
-                [campo]: nuevoValor,
-            });
-        }
+        setNumeroInvalido((estadoAnterior) => ({
+            ...estadoAnterior,
+            [campo]: false,
+        }));
+        setValoresEditados({
+            ...valoresEditados,
+            [campo]: nuevoValor,
+        });
     }
     async function enviarDatosAlServidor(datosEditados) {
         try {

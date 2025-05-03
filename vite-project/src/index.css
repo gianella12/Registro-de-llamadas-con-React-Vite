@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-[#d1c6d8] m-0 font-sans;
+body  {
+  @apply m-0 font-serif text-base bg-[#d9d4ecf5];
+  
 }

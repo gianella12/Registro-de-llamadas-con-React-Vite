@@ -115,7 +115,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
   return (
     <>
     {llamadas.length > 0 ? (
-      <table id="tabla">
+      <table id="tabla"  className="border border-[#f0eaff] bg-[#c78ce9] shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto table-auto my-8">
         <thead>
           <tr>
             <th className="border border-black p-2 text-left bg-[#c78ce9]">Origen</th>
@@ -173,10 +173,10 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
               <td className="border border-black p-2 text-left">
                 {celdaEnEdicion === index ? (
                   <>
-                    <button onClick={() => enviarDatosAlServidor(llamada.id_llamada, valoresEditados)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition">
+                    <button onClick={() => enviarDatosAlServidor(llamada.id_llamada, valoresEditados)} className="bg-green-300 border border-green-600 rounded px-4 py-1 cursor-pointer hover:bg-green-400 transition w-32 h-10">
                       Guardar
                     </button>
-                    <button onClick={() => setCeldaEnEdicion(null)} className="bg-red-300 border border-red-600 rounded px-4 py-1 cursor-pointer hover:bg-red-400 transition">
+                    <button onClick={() => setCeldaEnEdicion(null)} className="bg-red-300 border border-red-600 rounded px-4 py-1 cursor-pointer hover:bg-red-400 transition w-32 h-10">
                       Cancelar
                     </button>
                   </>
@@ -185,10 +185,10 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
                     <button onClick={() => {
                         setIdSeleccionado(llamada.id_llamada);
                         setCambiarEstadoModal(true);
-                      }} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+                      }} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition w-32 h-10">
                         Eliminar
                       </button>
-                    <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+                    <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition w-32 h-10">
                       Editar
                     </button>
                   </>
