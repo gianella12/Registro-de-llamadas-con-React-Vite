@@ -116,7 +116,8 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
   return (
     <>
     {llamadas.length > 0 ? (
-      <table id="tabla"  className="border border-[#f0eaff] bg-[#c78ce9] shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto table-auto my-8">
+      <div className="max-h-96 overflow-auto">
+      <table id="tabla"  className="border border-[#f0eaff] bg-[#c78ce9] shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto table-auto ">
         <thead>
           <tr>
             <th className="border border-black p-2 text-left bg-[#c78ce9]">Origen</th>
@@ -202,6 +203,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
           ))}
         </tbody>
       </table>
+      </div>
     ) : (
       <p>No hay llamadas</p>
     )}
