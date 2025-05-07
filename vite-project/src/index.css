@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body  {
-  @apply m-0 font-serif text-base bg-[#d9d4ecf5];
-  
+html, body {
+  @apply m-0 p-0 w-full h-full bg-[#d9d4ecf5] font-serif text-base;
+}
+
+body {
+  @apply dark:bg-gray-900 dark:text-white;
 }

@@ -11,6 +11,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
 
   useEffect(() => {
     calcularPromedioYtotal(llamadas)
+    setCeldaEnEdicion(null)
   }, [llamadas]);
 
   function editarCelda(index) {
@@ -134,6 +135,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
                       type="number"
                       defaultValue={llamada.origen}
                       onChange={(e) => manejarCambio(e, "origen")}
+                      className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
                     />
                     {numeroInvalido["origen"] && <p className="text-red-500">El número es inválido</p>}
                   </>
@@ -148,6 +150,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
                       type="number"
                       defaultValue={llamada.destino}
                       onChange={(e) => manejarCambio(e, "destino")}
+                      className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
                     />
                     {numeroInvalido["destino"] && <p className="text-red-500">Ingrese un número de 10 digitos</p>}
                   </>
@@ -162,6 +165,7 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
                       type="number"
                       defaultValue={llamada.duracion}
                       onChange={(e) => manejarCambio(e, "duracion")}
+                      className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
                     />
                     {numeroInvalido["duracion"] && <p className="text-red-500">El número es inválido</p>}
                   </>

@@ -3,6 +3,8 @@ import { ManejoDeLlamadas } from './sistemaDeGestion';
 import Modal from './componentes/modal';
 import { NuevaSeccion } from "./nuevaSeccion";
 import { Tarjeta } from "./componentes/tarjeta";
+import Mood  from "./componentes/mood";
+
 
 export const App = () => {
   const [valor, setValor] = useState('');
@@ -67,9 +69,9 @@ export const App = () => {
         <NuevaSeccion setMostrarNuevaSeccion={setMostrarNuevaSeccion}
           setLlamadas={setLlamadas} />
       ) : (
-        <div className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center  font-sans min-h-screen">
+        <div  className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center font-sans min-h-screen">
           <section className="mb-5">
-
+            <Mood/>
 
             <div className="absolute top-0 right-0 m-4">
               <button onClick={() => abrirNuevaSeccion()} className="bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer hover:bg-purple-400 transition text-white shadow-md">
@@ -87,12 +89,12 @@ export const App = () => {
               type="text"
               value={valor}
               onChange={(e) => setValor(Number(e.target.value))}
-              className="border border-purple-400 rounded px-2 py-1 mr-2 w-[160px] h-[30px]"
+              className="border border-purple-400 dark:border-purple-600 rounded px-2 py-1 mr-2 w-[160px] h-[30px] bg-white dark:bg-gray-800 text-black dark:text-white"
             />
 
             <button
               onClick={() => pedirLlamadasAlServidor(valor)}
-              className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition">
+              className="bg-[#baacc4] dark:bg-purple-600 border border-purple-600 dark:border-purple-400 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 dark:hover:bg-purple-500 transition text-black dark:text-white">
               Generar
             </button>
           </section>

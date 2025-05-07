@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Mood from "./componentes/mood";
 
 export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
     const [numeroInvalido, setNumeroInvalido] = useState({
@@ -83,8 +84,9 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
     const hayErrores = Object.values(numeroInvalido).some((invalido) => invalido);
     return (
         <>
-            <div className="mt-8 mb-8">
-                <table className="table-auto max-w-[600px] border-collapse mx-auto">
+            <div className=" mb-8">
+               <Mood posicion="derecha" />
+                <table className="border border-[#f0eaff] bg-[#c78ce9] shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto table-auto ">
                     <thead>
                         <tr>
                             <th className="border border-black p-2 text-left bg-[#c78ce9]">Destino</th>
@@ -95,24 +97,27 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
                     <tbody>
                         <tr>
                             <td className="border border-black p-2 text-left">
-                                <input type="text" placeholder="Ingrese destino" className="w-full px-2 py-1 border rounded" onChange={(e) => manejarCambio(e, "destino")} />
+                                <input type="text" placeholder="Ingrese destino" className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
+                                    onChange={(e) => manejarCambio(e, "destino")} />
                                 {numeroInvalido["destino"] && <p className="text-red-500">El número es inválido</p>}
                             </td>
                             <td className="border border-black p-2 text-left">
-                                <input type="text" placeholder="Ingrese origen" className="w-full px-2 py-1 border rounded" onChange={(e) => manejarCambio(e, "origen")} />
+                                <input type="text" placeholder="Ingrese origen" className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
+                                    onChange={(e) => manejarCambio(e, "origen")} />
                                 {numeroInvalido["origen"] && <p className="text-red-500">El número es inválido</p>}
                             </td>
                             <td className="border border-black p-2 text-left">
-                                <input type="number" placeholder="Ingrese duración" className="w-full px-2 py-1 border rounded" onChange={(e) => manejarCambio(e, "duracion")} />
+                                <input type="number" placeholder="Ingrese duración" className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
+                                    onChange={(e) => manejarCambio(e, "duracion")} />
                                 {numeroInvalido["duracion"] && <p className="text-red-500">El número es inválido</p>}
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
+
             <button
-                onClick={() =>registroTerminado()}
+                onClick={() => registroTerminado()}
                 disabled={hayErrores}
                 className={`bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 transition text-white shadow-md 
                 ${hayErrores ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-400 cursor-pointer'}`}
@@ -121,7 +126,7 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
             </button>
 
             <button onClick={() => atras()} className="absolute top-4 left-4 bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer hover:bg-purple-400 transition text-white shadow-md">
-            <i className="bi bi-box-arrow-left"></i>
+                <i className="bi bi-box-arrow-left"></i>
             </button>
         </>
     )
