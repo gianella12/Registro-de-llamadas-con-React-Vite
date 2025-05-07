@@ -7,5 +7,5 @@ html, body {
 }
 
 body {
-  @apply dark:bg-gray-900 dark:text-white;
+  @apply dark:bg-gray-900 dark:text-white min-h-screen flex flex-col;
 }

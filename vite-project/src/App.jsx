@@ -69,7 +69,8 @@ export const App = () => {
         <NuevaSeccion setMostrarNuevaSeccion={setMostrarNuevaSeccion}
           setLlamadas={setLlamadas} />
       ) : (
-        <div  className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center font-sans min-h-screen">
+        // <div  className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center font-sans min-h-screen">
+        <div className="max-w-[1280px] mx-auto p-8 text-center grid justify-items-center font-sans min-h-screen">
           <section className="mb-5">
             <Mood/>
 

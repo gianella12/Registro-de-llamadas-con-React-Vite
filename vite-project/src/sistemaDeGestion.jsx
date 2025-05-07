@@ -111,6 +111,10 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
       console.log("hay un error")
     }
   }
+  function pasarDatos(llamadaId){
+    setIdSeleccionado(llamadaId);
+    setCambiarEstadoModal(true);
+  }
 
 
   return (
@@ -188,9 +192,8 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
                 ) : (
                   <>
                     <button onClick={() => {
-                        setIdSeleccionado(llamada.id_llamada);
-                        setCambiarEstadoModal(true);
-                      }} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition w-32 h-10">
+                      pasarDatos(llamada.id_llamada)
+                    }} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition w-32 h-10">
                         Eliminar
                       </button>
                     <button onClick={() => editarCelda(index)} className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 cursor-pointer hover:bg-purple-200 transition w-32 h-10">
