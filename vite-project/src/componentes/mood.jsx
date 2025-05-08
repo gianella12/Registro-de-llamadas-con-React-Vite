@@ -4,10 +4,20 @@ export default function Mood({ posicion = "izquierda" }) {
   const [oscuro, setOscuro] = useState(false);
 
   useEffect(() => {
+    const temaGuardado = localStorage.getItem("tema");
+    if (temaGuardado === "oscuro") {
+      setOscuro(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  useEffect(() => {
     if (oscuro) {
       document.documentElement.classList.add('dark');
+      localStorage.setItem("tema", "oscuro");
     } else {
       document.documentElement.classList.remove('dark');
+      localStorage.setItem("tema", "claro");
     }
   }, [oscuro]);
 
