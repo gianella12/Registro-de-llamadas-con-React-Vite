@@ -1,22 +1,24 @@
-export default function TarjetasLlamadas({ llamadas }) {
-  return (
-    <div className="block sm:hidden space-y-4">
-      {llamadas.map((llamada, index) => (
-        <div key={index} className="bg-[#c78ce9] p-4 rounded-lg shadow border mx-2">
-          <p><span className="font-bold">Origen:</span> {llamada.origen}</p>
-          <p><span className="font-bold">Destino:</span> {llamada.destino}</p>
-          <p><span className="font-bold">Duración:</span> {llamada.duracion}</p>
+export default function TarjetasLlamadas({ llamadas,setIdSeleccionado,setCambiarEstadoModal }) {
+    return (
+        <div className="block sm:hidden space-y-4">
+            {llamadas.map((llamada, index) => (
+                <div key={index} className="bg-[#c78ce9] p-4 rounded-lg shadow border mx-2">
+                    <p><span className="font-bold">Origen:</span> {llamada.origen}</p>
+                    <p><span className="font-bold">Destino:</span> {llamada.destino}</p>
+                    <p><span className="font-bold">Duración:</span> {llamada.duracion}</p>
 
-          <div className="flex flex-col gap-2 mt-2">
-            <button className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 hover:bg-purple-200 transition">
-              Editar
-            </button>
-            <button className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 hover:bg-purple-200 transition">
-              Eliminar
-            </button>
-          </div>
+                    <div className="flex flex-col gap-2 mt-2">
+                        
+                        <button className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 hover:bg-purple-200 transition"
+                            onClick={() => {
+                                setIdSeleccionado(llamada.id_llamada)
+                                setCambiarEstadoModal(true)
+                            }}>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }

@@ -82,40 +82,52 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
         setMostrarNuevaSeccion(false);
     }
     const hayErrores = Object.values(numeroInvalido).some((invalido) => invalido);
-    return (
-        <>
-            <div className=" mb-8">
-               <Mood posicion="derecha" />
-                <table className="border border-[#f0eaff] bg-[#c78ce9] shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto table-auto ">
-                    <thead>
-                        <tr>
-                            <th className="border border-black p-2 text-left bg-[#c78ce9]">Destino</th>
-                            <th className="border border-black p-2 text-left bg-[#c78ce9]">Origen</th>
-                            <th className="border border-black p-2 text-left bg-[#c78ce9]">Duración</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td className="border border-black p-2 text-left">
-                                <input type="text" placeholder="Ingrese destino" className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
-                                    onChange={(e) => manejarCambio(e, "destino")} />
-                                {numeroInvalido["destino"] && <p className="text-red-500">El número es inválido</p>}
-                            </td>
-                            <td className="border border-black p-2 text-left">
-                                <input type="text" placeholder="Ingrese origen" className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
-                                    onChange={(e) => manejarCambio(e, "origen")} />
-                                {numeroInvalido["origen"] && <p className="text-red-500">El número es inválido</p>}
-                            </td>
-                            <td className="border border-black p-2 text-left">
-                                <input type="number" placeholder="Ingrese duración" className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
-                                    onChange={(e) => manejarCambio(e, "duracion")} />
-                                {numeroInvalido["duracion"] && <p className="text-red-500">El número es inválido</p>}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+return (
+    <>
+        <div className="mb-8 px-4 w-full max-w-md mx-auto space-y-4">
+            <Mood posicion="derecha" />
+
+            <div className="flex flex-col">
+                <label className="text-sm font-semibold mb-1">Destino</label>
+                <input
+                    type="text"
+                    placeholder="Ingrese destino"
+                    className="w-full bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-3 py-2"
+                    onChange={(e) => manejarCambio(e, "destino")}
+                />
+                {numeroInvalido["destino"] && (
+                    <p className="text-red-500 text-sm mt-1">El número es inválido</p>
+                )}
             </div>
 
+            <div className="flex flex-col">
+                <label className="text-sm font-semibold mb-1">Origen</label>
+                <input
+                    type="text"
+                    placeholder="Ingrese origen"
+                    className="w-full bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-3 py-2"
+                    onChange={(e) => manejarCambio(e, "origen")}
+                />
+                {numeroInvalido["origen"] && (
+                    <p className="text-red-500 text-sm mt-1">El número es inválido</p>
+                )}
+            </div>
+
+            <div className="flex flex-col">
+                <label className="text-sm font-semibold mb-1">Duración</label>
+                <input
+                    type="number"
+                    placeholder="Ingrese duración"
+                    className="w-full bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-3 py-2"
+                    onChange={(e) => manejarCambio(e, "duracion")}
+                />
+                {numeroInvalido["duracion"] && (
+                    <p className="text-red-500 text-sm mt-1">El número es inválido</p>
+                )}
+            </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-4 px-4 sm:flex-row sm:justify-center">
             <button
                 onClick={() => registroTerminado()}
                 disabled={hayErrores}
@@ -125,9 +137,12 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
                 Aceptar
             </button>
 
-            <button onClick={() => atras()} className="absolute top-4 left-4 bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 cursor-pointer hover:bg-purple-400 transition text-white shadow-md">
+            <button
+                onClick={() => atras()}
+                className="bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 hover:bg-purple-400 transition text-white shadow-md"
+            >
                 <i className="bi bi-box-arrow-left"></i>
             </button>
-        </>
-    )
-}
+        </div>
+    </>
+);}
