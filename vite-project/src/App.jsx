@@ -33,7 +33,7 @@ export const App = () => {
 
 
   async function pedirLlamadasAlServidor(cantidad) {
-    if(cantidad !== 0){
+    if(cantidad > 0){
     try {
       setGenerando(true)
 

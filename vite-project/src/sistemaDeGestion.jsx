@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from './componentes/modal';
+import TarjetasLlamadas from "./componentes/tarjetaDeLlamadasMobile";
 
 export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal }) {
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
@@ -120,7 +121,8 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
   return (
     <>
     {llamadas.length > 0 ? (
-      <div className="max-h-96 overflow-auto">
+      <>
+      <div className="hidden sm:block max-h-96 overflow-auto">
       <table id="tabla"  className="border border-[#f0eaff] bg-[#c78ce9] shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto table-auto ">
         <thead>
           <tr>
@@ -207,6 +209,11 @@ export function ManejoDeLlamadas({ llamadas,setLlamadas, calcularPromedioYtotal 
         </tbody>
       </table>
       </div>
+
+      <div className="block sm:hidden space-y-4">
+          <TarjetasLlamadas llamadas={llamadas} />
+      </div>
+      </>
     ) : (
       <p>No hay llamadas</p>
     )}
