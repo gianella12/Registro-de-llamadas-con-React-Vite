@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Modal from './componentes/modal';
 import TarjetasLlamadas from "./componentes/tarjetaDeLlamadasMobile";
+import { useValidacionLlamada } from "./hooks/useValidacionesllamadas";
 
 export function ManejoDeLlamadas({ llamadas, setLlamadas, calcularPromedioYtotal }) {
   const [celdaEnEdicion, setCeldaEnEdicion] = useState(null);
-  const [valoresEditados, setValoresEditados] = useState({});
-  const [numeroInvalido, setNumeroInvalido] = useState({});
   const [estadoModal, setCambiarEstadoModal] = useState(false);
   const [idSeleccionado, setIdSeleccionado] = useState(null);
+
+   const {
+    numeroInvalido,
+    valoresEditados,
+    manejarCambio,
+    setValoresEditados
+  } = useValidacionLlamada();
 
 
   useEffect(() => {
@@ -18,50 +24,6 @@ export function ManejoDeLlamadas({ llamadas, setLlamadas, calcularPromedioYtotal
   function editarCelda(index) {
     setCeldaEnEdicion(index);
     setValoresEditados(llamadas[index]);
-  }
-
-  function manejarCambio(event, campo) {
-    const nuevoValor = event.target.value;
-
-    if (campo === "duracion") {
-      if (nuevoValor > 29 && nuevoValor <= 600) {
-        setNumeroInvalido((estadoAnterior) => ({
-          ...estadoAnterior,
-          [campo]: false,
-        }));
-
-        setValoresEditados({
-          ...valoresEditados,
-          [campo]: nuevoValor,
-        });
-      } else {
-        setNumeroInvalido((estadoAnterior) => ({
-          ...estadoAnterior,
-          [campo]: true,
-        }));
-      }
-      return;
-    }
-
-    if (nuevoValor.length < 10) {
-      setNumeroInvalido((estadoAnterior) => ({
-        ...estadoAnterior,
-        [campo]: true,
-      }));
-      return;
-    }
-
-    if (nuevoValor.length === 10) {
-      setNumeroInvalido((estadoAnterior) => ({
-        ...estadoAnterior,
-        [campo]: false,
-      }));
-
-      setValoresEditados({
-        ...valoresEditados,
-        [campo]: nuevoValor,
-      });
-    }
   }
 
   async function borrar(id_llamada) {
@@ -159,7 +121,7 @@ export function ManejoDeLlamadas({ llamadas, setLlamadas, calcularPromedioYtotal
                             onChange={(e) => manejarCambio(e, "destino")}
                             className="bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-2 py-1"
                           />
-                          {numeroInvalido["destino"] && <p className="text-red-500">Ingrese un número de 10 digitos</p>}
+                          {numeroInvalido["destino"] && <p className="text-red-500">El numero es invalido</p>}
                         </>
                       ) : (
                         llamada.destino
@@ -213,10 +175,10 @@ export function ManejoDeLlamadas({ llamadas, setLlamadas, calcularPromedioYtotal
           <div className="block sm:hidden space-y-4">
             <TarjetasLlamadas
               llamadas={llamadas}
-              editarCelda={editarCelda}
-              setCambiarEstadoModal={setCambiarEstadoModal}
+              pasarDatosBorrar = {pasarDatos}
             />
           </div>
+          
         </>
       ) : (
         <p>No hay llamadas</p>

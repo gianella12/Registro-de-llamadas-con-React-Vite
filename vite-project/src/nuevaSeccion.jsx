@@ -1,54 +1,16 @@
-import { useState } from "react";
-import Mood from "./componentes/mood";
+import { useValidacionLlamada } from "./hooks/useValidacionesllamadas";
 
-export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
-    const [numeroInvalido, setNumeroInvalido] = useState({
-        origen: true,
-        destino: true,
-        duracion: true
-    });
-    const [valoresEditados, setValoresEditados] = useState({});
+export const NuevaSeccion = ({ setMostrarNuevaSeccion,setLlamadas }) => {
+    const {
+    numeroInvalido,
+    valoresEditados,
+    manejarCambio,
+  } = useValidacionLlamada();
 
-    function manejarCambio(event, campo) {
-        const nuevoValor = event.target.value;
-
-        if (campo === "duracion") {
-            if (nuevoValor > 29 && nuevoValor <= 600) {
-                setNumeroInvalido((estadoAnterior) => ({
-                    ...estadoAnterior,
-                    [campo]: false,
-                }));
-
-                setValoresEditados({
-                    ...valoresEditados,
-                    [campo]: nuevoValor,
-                });
-            } else {
-                setNumeroInvalido((estadoAnterior) => ({
-                    ...estadoAnterior,
-                    [campo]: true,
-                }));
-            }
-            return;
-        }
-
-        if (nuevoValor.length < 10 || nuevoValor.length > 10) {
-            setNumeroInvalido((estadoAnterior) => ({
-                ...estadoAnterior,
-                [campo]: true,
-            }));
-            return;
-        }
-
-        setNumeroInvalido((estadoAnterior) => ({
-            ...estadoAnterior,
-            [campo]: false,
-        }));
-        setValoresEditados({
-            ...valoresEditados,
-            [campo]: nuevoValor,
-        });
-    }
+  const habilitarBoton = 
+   Object.values(valoresEditados).every(valor => valor !== '' && !isNaN(Number(valor))) &&
+  Object.values(numeroInvalido).every(invalido => !invalido);
+  
     async function enviarDatosAlServidor(datosEditados) {
         try {
             const respuesta = await fetch(`http://localhost:3000/insertar-registro`, {
@@ -78,19 +40,15 @@ export const NuevaSeccion = ({ setMostrarNuevaSeccion, setLlamadas }) => {
         setMostrarNuevaSeccion(false);
 
     }
-    function atras() {
-        setMostrarNuevaSeccion(false);
-    }
-    const hayErrores = Object.values(numeroInvalido).some((invalido) => invalido);
+
 return (
     <>
         <div className="mb-8 px-4 w-full max-w-md mx-auto space-y-4">
-            <Mood posicion="derecha" />
-
+            
             <div className="flex flex-col">
                 <label className="text-sm font-semibold mb-1">Destino</label>
                 <input
-                    type="text"
+                    type="number"
                     placeholder="Ingrese destino"
                     className="w-full bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-3 py-2"
                     onChange={(e) => manejarCambio(e, "destino")}
@@ -103,7 +61,7 @@ return (
             <div className="flex flex-col">
                 <label className="text-sm font-semibold mb-1">Origen</label>
                 <input
-                    type="text"
+                    type="number"
                     placeholder="Ingrese origen"
                     className="w-full bg-white text-black dark:bg-[#1a1a1a] dark:text-white border border-gray-400 rounded px-3 py-2"
                     onChange={(e) => manejarCambio(e, "origen")}
@@ -130,19 +88,13 @@ return (
         <div className="flex flex-col items-center gap-4 px-4 sm:flex-row sm:justify-center">
             <button
                 onClick={() => registroTerminado()}
-                disabled={hayErrores}
+                disabled={!habilitarBoton}
                 className={`bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 transition text-white shadow-md 
-                ${hayErrores ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-400 cursor-pointer'}`}
+                ${!habilitarBoton ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-400 cursor-pointer'}`}
             >
                 Aceptar
             </button>
 
-            <button
-                onClick={() => atras()}
-                className="bg-[#8a75a8] border border-purple-800 rounded px-4 py-2 hover:bg-purple-400 transition text-white shadow-md"
-            >
-                <i className="bi bi-box-arrow-left"></i>
-            </button>
         </div>
     </>
 );}

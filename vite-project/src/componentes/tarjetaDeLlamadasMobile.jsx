@@ -1,4 +1,4 @@
-export default function TarjetasLlamadas({ llamadas,setIdSeleccionado,setCambiarEstadoModal }) {
+export default function TarjetasLlamadas({ llamadas,pasarDatosBorrar }) {
     return (
         <div className="block sm:hidden space-y-4">
             {llamadas.map((llamada, index) => (
@@ -11,8 +11,7 @@ export default function TarjetasLlamadas({ llamadas,setIdSeleccionado,setCambiar
                         
                         <button className="bg-[#baacc4] border border-purple-600 rounded px-4 py-1 hover:bg-purple-200 transition"
                             onClick={() => {
-                                setIdSeleccionado(llamada.id_llamada)
-                                setCambiarEstadoModal(true)
+                               pasarDatosBorrar(llamada.id_llamada)
                             }}>
                             Eliminar
                         </button>
