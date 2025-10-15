@@ -32,7 +32,7 @@ export function useValidacionLlamada() {
       return;
     }
 
-    // Validación de origen/destino
+   
     if (valorNuevo.length !== 10) {
       setNumeroInvalido((estadoPrevio) => ({
         ...estadoPrevio,

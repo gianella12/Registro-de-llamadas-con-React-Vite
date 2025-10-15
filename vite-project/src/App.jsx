@@ -19,7 +19,7 @@ export const App = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:3000/')
+    fetch('http://localhost:3000/llamadas')
       .then(res => res.json())
       .then(data => {
         setLlamadas(data);
@@ -38,7 +38,7 @@ export const App = () => {
       try {
         setGenerando(true)
 
-        const respuesta = await fetch(`http://localhost:3000/generar-telefonos/${cantidad}`);
+       const respuesta = await fetch(`http://localhost:3000/llamadas/generar-telefonos/${cantidad}`);
         const datos = await respuesta.json();
         console.log(datos)
         setLlamadas(datos);
